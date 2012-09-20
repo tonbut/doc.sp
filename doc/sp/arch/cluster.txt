@@ -1,0 +1,5 @@
+It is often necessary to have multiple instances running side by side to increase throughput or reliability of your system. This page shows how
+this can be achieved.
+
+Before considering clustering for performance reasons it is recommended to [[doc:process:dev:tuning|tune your system]] and understand it's performance characteristics. Ideally
+an application can serve most requests from cache and this can have dramatic effects on necessary hardware to support a given load.

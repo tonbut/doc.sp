@@ -1,0 +1,10 @@
+Software Engineering to quote wikipedia is "the application of a systematic, disciplined, quantifiable approach to the design, development, operation, and maintenance of software."
+That is what this whole book is about but this page, specifically, is about the '''engineering within the software artifact itself''' rather than the process which created it. This is something
+which is often sadly missing.
+
+Engineering of the software artifact refers to:
+* Ensuring the system performs to specification (functional testing)
+* Ensuring the system will scale to all of the demands placed upon it
+* Implementing failsafe and/or predicable failure modes
+
+

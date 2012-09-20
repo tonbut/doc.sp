@@ -1,0 +1,27 @@
+<module version="2.0">
+	<meta>
+		<identity>
+			<uri>urn:org:netkernel:doc:content:process</uri>
+			<version>1.0.0</version>
+		</identity>
+		<info>
+			<name>Doc / Software Process</name>
+			<description>General documentation for the system</description>
+			<icon>res:/doc/sp/book-process.png</icon>
+		</info>
+	</meta>
+	<system>
+	</system>
+	<rootspace>
+
+		<fileset>
+			<glob>etc/*</glob>
+		</fileset>
+
+		<fileset>
+			<glob>doc/sp/*</glob>
+		</fileset>
+
+	</rootspace>
+  
+</module>

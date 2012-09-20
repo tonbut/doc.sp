@@ -1,0 +1,5 @@
+This Software Process Book is a collection of best practice knowledge captured from both 1060 Research and community collaboration.
+It's scope is broad - to document knowledge of how to architect, design, implement, test, tune, take to production, manage and maintain
+systems developed with 1060 NetKernel using the Resource Oriented Computing (ROC) approach.
+
+We welcome your input. Everything from typos, corrections and suggestions to ownership and writing of pages or complete sections.

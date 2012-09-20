@@ -1,0 +1,17 @@
+=runlevels=
+
+=Distribution=
+
+For distribution and deployment, a module is packaged in a ZIP or JAR file.
+While a module JAR file may have any name, by convention the filename
+uses the module's URN identifier in dotted form.
+For example, if the module's urn is
+
+{literal}urn:org:netkernel:some:module{/literal}
+
+and has a version 1.0.0. The jarred file name will be
+
+{literal}urn.org.netkernel.some.module-1.0.0.jar{/literal}
+
+The use of periods (".") in the filename instead of colons (":") is required as some operating systems
+cannot cope with a colon in a filename.

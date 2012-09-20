@@ -1,0 +1,213 @@
+<docs>
+
+  <!-- Software Process -->
+  <doc>
+    <id>doc:process:title</id>
+    <title>Software Process Introduction</title>
+    <desc>Development process and software lifecycle with NetKernel</desc>
+    <uri>res:/doc/sp/title.txt</uri>
+  </doc>
+  
+  <doc>
+    <id>doc:process:arch</id>
+    <title>NetKernel Architecture</title>
+    <desc>Planning and designing an architecture for a NetKernel system</desc>
+    <uri>res:/doc/sp/arch/title.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:arch:engineering</id>
+    <title>Engineering</title>
+    <desc>Engineering a system</desc>
+    <uri>res:/doc/sp/arch/engineering.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:arch:cluster</id>
+    <title>Clustering NetKernel</title>
+    <desc>Implementing a cluster of NetKernels</desc>
+    <uri>res:/doc/sp/arch/cluster.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:arch:methodology</id>
+    <title>Development Methodologies</title>
+    <desc>Choosing a development methodology</desc>
+    <uri>res:/doc/sp/arch/methodology.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:arch:modularity</id>
+    <title>NetKernel Modularity</title>
+    <desc>Understanding modularity in NetKernel systems</desc>
+    <uri>res:/doc/sp/arch/modularity.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:arch:security</id>
+    <title>Architecting for Security</title>
+    <desc>Understanding NetKernel security in relation to architecture</desc>
+    <uri>res:/doc/sp/arch/security.txt</uri>
+  </doc>
+  
+  <doc>
+    <id>doc:process:dev</id>
+    <title>Developing for NetKernel</title>
+    <desc>Learn best practices for developing with NetKernel</desc>
+    <uri>res:/doc/sp/dev/title.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:dev:build</id>
+    <title>Building NetKernel Modules</title>
+    <desc>Learn how to build NetKernel modules</desc>
+    <uri>res:/doc/sp/dev/build.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:dev:ci</id>
+    <title>Continuous Integration</title>
+    <desc>Understanding continuous integration with respect to NetKernel</desc>
+    <uri>res:/doc/sp/dev/ci.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:dev:debug</id>
+    <title>Debugging NetKernel Applications</title>
+    <desc>Tools and approaches to debugging NetKernel applications</desc>
+    <uri>res:/doc/sp/dev/debug.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:dev:ide</id>
+    <title>IDE Setup</title>
+    <desc>Setting up an integrated development environment for NetKernel</desc>
+    <uri>res:/doc/sp/dev/ide.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:dev:licensing</id>
+    <title>Development Licensing</title>
+    <desc>Licensing NetKernel for use in a development environment</desc>
+    <uri>res:/doc/sp/dev/licensing.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:dev:test</id>
+    <title>Testing NetKernel Applications</title>
+    <desc>Regression and integration testing of NetKernel applications</desc>
+    <uri>res:/doc/sp/dev/test.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:dev:tdd</id>
+    <title>Test Driven Development</title>
+    <desc>using the test driven development approach with NetKernel</desc>
+    <uri>res:/doc/sp/dev/tdd.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:dev:regression</id>
+    <title>Regression Testing</title>
+    <desc>Regression testing of NetKernel applications</desc>
+    <uri>res:/doc/sp/dev/regression.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:dev:tuning</id>
+    <title>Tuning NetKernel</title>
+    <desc>Learn how to tune a NetKernel application</desc>
+    <uri>res:/doc/sp/dev/tuning.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:dev:versioning</id>
+    <title>Version Control</title>
+    <desc>Best practice version control for NetKernel</desc>
+    <uri>res:/doc/sp/dev/versioning.txt</uri>
+  </doc>
+  
+  <doc>
+    <id>doc:process:prod</id>
+    <title>Putting NetKernel into Production</title>
+    <desc>Learn about putting NetKernel into production usage</desc>
+    <uri>res:/doc/sp/prod/title.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:prod:licensing</id>
+    <title>Production Licensing</title>
+    <desc>Licensing NetKernel for use in a production environment</desc>
+    <uri>res:/doc/sp/prod/licensing.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:prod:licensing:regular</id>
+    <title>Enterprise Licensing</title>
+    <desc>Licensing NetKernel for use in a production environment</desc>
+    <uri>res:/doc/sp/prod/licensing-ee.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:prod:licensing:meter</id>
+    <title>Metered Licensing</title>
+    <desc>Using a license meter</desc>
+    <uri>res:/doc/sp/prod/metered.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:prod:management</id>
+    <title>Managing and Administrating</title>
+    <desc>Understanding management and administration of NetKernel in production</desc>
+    <uri>res:/doc/sp/prod/management.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:prod:monitor</id>
+    <title>Monitoring NetKernel</title>
+    <desc>Monitor production instances of NetKernel</desc>
+    <uri>res:/doc/sp/prod/monitor.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:prod:monitor</id>
+    <title>Monitoring NetKernel</title>
+    <desc>Monitor production instances of NetKernel</desc>
+    <uri>res:/doc/sp/prod/monitor.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:prod:platform</id>
+    <title>Deployment Platforms</title>
+    <desc>Deployment platform choices for NetKernel</desc>
+    <uri>res:/doc/sp/prod/platform.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:prod:repository</id>
+    <title>Production Code Repository</title>
+    <desc>Managing code migration to production</desc>
+    <uri>res:/doc/sp/prod/repository.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:prod:security</id>
+    <title>Production Security Considerations</title>
+    <desc>Security considerations when putting NetKernel into production</desc>
+    <uri>res:/doc/sp/prod/security.txt</uri>
+  </doc>
+
+  <doc>
+    <id>doc:process:feature</id>
+    <title>Operational Features</title>
+    <desc>Technical operational features of NetKernel</desc>
+    <uri>res:/doc/sp/features/title.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:feature</id>
+    <title>Operational Features</title>
+    <desc>Technical operational features of NetKernel</desc>
+    <uri>res:/doc/sp/feature/title.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:feature:cp</id>
+    <title>Extending the Control Panel</title>
+    <desc>How to extend the NetKernel Management Console Control Panel</desc>
+    <uri>res:/doc/sp/feature/cp.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:feature:doc</id>
+    <title>Documenting Modules</title>
+    <desc>How to document NetKernel modules and functionality</desc>
+    <uri>res:/doc/sp/feature/doc.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:feature:hc</id>
+    <title>Adding System Healthchecks</title>
+    <desc>How to add additional system health checks</desc>
+    <uri>res:/doc/sp/feature/hc.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:feature:logging</id>
+    <title>Using Logging</title>
+    <desc>How to use logging in NetKernel</desc>
+    <uri>res:/doc/sp/feature/logging.txt</uri>
+  </doc>
+
+</docs>

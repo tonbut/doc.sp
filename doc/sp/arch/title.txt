@@ -1,0 +1,3 @@
+NetKernel is an architecture building platform. It gives you a lots of freedom to create a solution that fits your requirements. 
+Typical enterprise software comes with it's developers idea of an architecture, NetKernel does not.
+That may initially make it hard to know where to start. However you've come to right place! 

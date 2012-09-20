@@ -1,0 +1,10 @@
+<controlpanel>
+	<icon>
+		<title>Software Process Guide</title>
+		<subtitle>Development process and software lifecycle with NetKernel</subtitle>
+		<path>/book/view/book:software:process/</path>
+		<icon>/book/icon/book:software:process</icon>
+		<panel>urn:org:netkernel:doc:app:control:panel</panel>
+		<order>145</order>
+	</icon>
+</controlpanel>
