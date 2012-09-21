@@ -3,7 +3,9 @@ doc.sp
 
 NetKernel Software Process Book (urn:org:netkernel:doc:content:process)
 
-==Purpose==
+Purpose
+=======
+
 This Software Process Book is a collection of best practice knowledge captured
 from both 1060 Research and community collaboration. It's scope is broad - to
 document knowledge of how to architect, design, implement, test, tune, take to
@@ -16,7 +18,9 @@ ownership and writing of pages or complete sections.
 The aim is to start shipping versions of this book in the NetKernel distribution
 and make ready-to-read updates available on the apposite repository.
 
-==How to install=
+How to install
+==============
+
 1) Download and install NetKernel
 2) Checkout this repository
 3) Edit [netkernel_install]/etc/modules.xml and add the line:
