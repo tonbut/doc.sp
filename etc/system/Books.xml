@@ -27,7 +27,10 @@
 					
 				</item>
 				<item id="doc:process:dev" title="Development">
-					<item id="doc:process:dev:ide" title="IDE"></item>
+					<item id="doc:process:dev:ide" title="IDE">
+            <item id="doc:process:dev:ide:eclipse" title="Eclipse"/>
+            <item id="doc:process:dev:ide:intellij" title="IntelliJ"/>
+					</item>
 					<item id="doc:process:dev:versioning" title="Version Control"></item>
 					<item id="doc:process:dev:build" title="Build"></item>
 					<item id="doc:process:dev:debug" title="Debugging"></item>

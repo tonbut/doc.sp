@@ -76,6 +76,18 @@
     <uri>res:/doc/sp/dev/ide.txt</uri>
   </doc>
   <doc>
+    <id>doc:process:dev:ide:eclipse</id>
+    <title>Eclipse</title>
+    <desc>The Eclipse IDE</desc>
+    <uri>res:/doc/sp/dev/eclipse.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:dev:ide:intellij</id>
+    <title>IntelliJ</title>
+    <desc>The IntelliJ IDE</desc>
+    <uri>res:/doc/sp/dev/intellij.txt</uri>
+  </doc>
+  <doc>
     <id>doc:process:dev:licensing</id>
     <title>Development Licensing</title>
     <desc>Licensing NetKernel for use in a development environment</desc>
