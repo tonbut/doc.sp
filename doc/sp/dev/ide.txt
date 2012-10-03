@@ -1,3 +1,8 @@
-Integrated Development Environments (IDE) can be set up for NetKernel development.
+The Integrated Development Environments (IDE) has become an essential tool for the developer. It provides a workbench from where
+all common activities can be performed - a one stop shop. Activities usually include:
+* Editing code
+* Managing version control
+* Running tests
+* Debugging code
 
-
+The section includes guides on setting up common IDEs for use with NetKernel.

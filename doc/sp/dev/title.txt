@@ -1,1 +1,1 @@
-Existing tools and approaches can be used to develop with NetKernel.
+This section discusses use of existing tools both with NetKernel and third-party to enable the process of developing software systems with NetKernel.
