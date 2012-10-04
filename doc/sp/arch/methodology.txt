@@ -1,3 +1,6 @@
 ==Construct Compose Constrain==
 
 ==Generic Representations==
+
+==Patterns==
+See the [[doc:patterns:index|Patterns book]].

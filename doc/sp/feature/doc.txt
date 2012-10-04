@@ -1,0 +1,220 @@
+=Documentation Editing Guide=
+
+This is a guide to the NetKernel documentation system.
+
+==Creating Documents==
+
+Documentation is written as plain/text and ''may''  be in any of a number of Wiki dialects.
+If no syntax declaration is made on the first line then [[doc:sysadmin:wiki:ref:mediawiki|MediaWiki]]
+syntax is the ''default''.
+The following section has guides to each syntax.
+
+===Markup Reference Guides===
+
+*[[doc:sysadmin:wiki:ref:mediawiki|MediaWiki]]
+*[[doc:sysadmin:wiki:ref:textile|Textile]]
+*[[doc:sysadmin:wiki:ref:confluence|Confluence]]
+*[[doc:sysadmin:wiki:ref:tracwiki|TracWiki]]
+
+===Macro Guide===
+
+The NetKernel wiki engine supports extensible macro engines.
+
+A number of "built-in" macro engines may be used with your documents to style xml, java source etc.
+For details see this [[doc:wiki:core:macrosBuiltIn|reference guide]].
+
+You may also add your own [[doc:wiki:core:macros|Macro Engines]].
+
+===Endpoint Macro===
+
+If you wish to include a human readable rendering of an endpoint's metadata you may use the "endpoint" 
+macro containing the [[doc:physicalreference:request:issuing:endpoint|id]] of your endpoint
+
+{ endpoint}endpoint.id{/endpoint}
+
+
+==Publishing Documents==
+
+Documentation is published in two phases.  First a text file is made visible to the documentation system by
+creating an entry in '''res:/etc/system/Docs.xml''' in your module.  Secondly individual documents can be structured
+into books by referencing them in '''res:/etc/system/Books.xml'''
+
+===Example===
+
+When you create a module with the [http:/tools/newmodule/|new module wizard] it will automatically construct the 
+required Docs.xml and Books.xml in the module's etc/system/ directory and provide
+some stubbed out documents as a starting point. 
+
+==res:/etc/system/Docs.xml==
+
+The documentation system creates a master index of documentation by searching all of the public spaces for
+resources called '''res:/etc/system/Docs.xml''' - this '''must''' be a documentation list with the following
+structure...
+
+{xml}
+<docs>
+	<doc>	
+		<id>doc:some:unique:id</id>
+		<title>Some Title</title>
+		<desc>Some description</desc>
+		<uri>res:/the/path/to/my/document.txt</uri>
+		<icon>res:/the/path/to/some/optional/icon.png</icon>
+		<keywords>some,optional,indexing,keywords</keywords>
+		<category>doc accessor</category>
+	</doc>
+	<doc>	
+		<id>doc:some:other:unique:id</id>
+		<title>Some Other Title</title>
+		<desc>Some other description</desc>
+		<uri>res:/the/path/to/my/other-document.txt</uri>
+		<icon>res:/the/path/to/some/other/optional/icon.png</icon>
+		<keywords>some,other,optional,indexing,keywords</keywords>
+		<category>..</category>
+	</doc>
+	...
+</docs>
+{/xml}
+
+The ''id'' entry '''must''' be system-wide unique so that documents can be linked and structured into books.
+
+===<category>===
+
+The category field indicates that the document should appear in the [[doc:compref:title|Component Reference Guide]].
+Category is a space delimited list of categories.  To indicate that this is a document you '''must''' include the value '''doc'''.
+
+Other category labels include:
+
+*'''accessor''' - list this document in the [[doc:compref:accesor|Accessor listing section]]
+*'''transport''' - list this document in the [[doc:compref:transport|Transport listing section]]
+*'''representation''' - list this document in the [[doc:compref:representation|Representation listing section]].
+*'''overlay''' - list this document in the Overlay listing section
+*'''scheme''' - list this document in the [[doc:compref:scheme|URI addressing scheme section]].
+
+For example to list a document in the transport section you would have
+
+{xml}
+<category>doc transport</category>
+{/xml}
+
+==res:/etc/system/Books.xml==
+ 
+The documentation system presents structured books by searching all of the public spaces for
+resources called '''res:/etc/system/Books.xml''' - this '''must''' be a book list with the following
+structure... 
+ 
+{xml}
+<books>
+	<book>
+		<id>book:system:admin</id>
+		<title>System Administration</title>
+		<desc>The system administration documentation</desc>
+		<author/>
+		<publisher/>
+		<date/>
+		<modified/>
+		<icon/>
+		<keywords></keywords>
+		<toc>
+			<item id="doc:sysadmin:title">
+					<item id="doc:sysadmin:guide:doc:editing" title="Alternative Title"/>
+					<item id="doc:sysadmin:wiki:title">
+						<item id="doc:sysadmin:wiki:ref:mediawiki"/>
+						<item id="doc:sysadmin:wiki:ref:textile"/>
+						<item id="doc:sysadmin:wiki:ref:confluence"/>
+						<item id="doc:sysadmin:wiki:ref:tracwiki"/>
+					</item>
+			</item>
+		</toc>
+	</book>
+	...
+</books>
+{/xml}
+
+Each '''item''' has an '''id''' attribute which is the  reference to the document id.  Items
+may contain further items in a tree thereby providing the structure of the book.
+If an item has an @title attribute  it will be used as an alternative (usually shorter) title for the menu listing.
+ 
+'''Books.xml''' can contain any number of '''book''' definitions but each book '''id''' must be globally unique.
+
+==Linking==
+
+The documentation engine will detect and cross link document ids and system endpoint ids. 
+
+For example this document has id '''doc:sysadmin:guide:doc:editing''' it can be linked from any other document
+using wiki specific syntax...
+
+<table border="1">
+<tr>
+<td>'''Syntax'''</td>
+<td>'''Link Format'''</td>
+</tr>
+<tr>
+<td>
+MediaWiki
+</td>
+<td>
+{literal}[[doc:sysadmin:guide:doc:editing|Editing Guide]]{/literal}
+</td>
+</tr>
+<tr>
+<td>
+Textile
+</td>
+<td>
+{literal}"Editing Guide":doc:sysadmin:guide:doc:editing{/literal}
+</td>
+</tr>
+</table>
+
+System identifiers ''may'' also be used as link ''id''s.  For example the Groovy language runtime has id '''GroovyRuntime''' and is linked to with
+
+<table border="1">
+<tr>
+<td>'''Syntax'''</td>
+<td>'''Link Format'''</td>
+</tr>
+<tr>
+<td>
+MediaWiki
+</td>
+<td>
+{literal}[[GroovyRuntime|The Groovy Runtime]]{/literal}
+</td>
+</tr>
+<tr>
+<td>
+Textile
+</td>
+<td>
+{literal}"The Groovy Runtime":GroovyRuntime{/literal}
+</td>
+</tr>
+</table>
+
+System links will take you from the documentation application to the '''Space Browser'''.
+[[GroovyRuntime|Here]] is a live link to the Groovy runtime endpoint in the space browser.
+
+==SVG Vector Graphics==
+
+The documentation system uses inline  W3C standard SVG vector graphics for diagrams
+and line art.  To see these images you '''must''' have a modern web browser that supports XHTML and native SVG rendering.
+
+{svg}res:/doc/sp/feature/circles.svg{/svg}
+''Image: Three interlocking Red, Green, Blue circles''
+
+If you do not see the example image above, please contact your browser vendor and ask them for W3C standard SVG support or download one of the following
+standards compliant browsers:  [http://www.mozilla.com|Firefox], [http://www.opera.com|Opera]
+
+''Please note, Microsoft Internet Explorer does not implement W3C standard XHTML nor SVG vector images and so is incapable of correctly viewing this W3C standards complient documentation correctly - please upgrade to one of the browsers suggested above'' 
+
+==Wiki Resource Model Library==
+The documentation system is built on the [[WikiParser|Wiki resource model library]].
+
+==Terminology==
+
+The terminology used to describe  documents follows standard W3C / IETF best practice. The
+key words MUST, MUST NOT, REQUIRED, SHALL, SHALL NOT, SHOULD, SHOULD NOT, RECOMMENDED, MAY, and
+OPTIONAL, when EMPHASIZED, are to be interpreted as described in [http://www.ietf.org/rfc/rfc2119.txt|IETF RFC 2119].
+
+
+

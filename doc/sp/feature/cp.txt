@@ -1,0 +1,119 @@
+The NetKernel Management Console (usually on port 1060) can be extended by installed module to provide new panel or add widgets and icons to existing panels.
+The guide shows you how you can do this so that your modules can to add your own tools and be managed in the context of the management console.
+
+==ControlPanel.xml==
+Your module should expose a resource identifier by '''res:/etc/system/ControlPanel.xml'''. This resource must be SOURCEable and return an XML representation
+containing the specification of panels, widgets and icons to add to the management console. This should have a root element of <controlpanel>
+
+==Adding a Panel==
+A panel consists of a top level tab on the management console with an area that can contain icons and widgets. Add a <panel> fragment to ControlPanel.xml:
+{xml}
+<controlpanel>
+	<panel>
+		<id>urn:org:myorg:mypanel</id>
+		<title>MyOrg Management Panel</title>
+		<subtitle>Tools to manage my org functionality</subtitle>
+		<shorttitle>MyOrg</shorttitle>
+		<icon>/org/myorg/pub/icon.png</icon>
+		<order>20</order>
+	</panel>
+</controlpanel>
+{/xml}
+The panel element contains the following elements:
+* '''id''' - a unique identifier for the panel
+* '''title''' - this title is used in the title area of the panel
+* ''''subtitle''' -  this subtitle is a longer description of the panels usage which sits directly below the title
+* '''shorttitle''' - this optional title is used on the tab itself and so if the title is a little too long a shorter version can be provided here
+* '''icon''' - optional icon is a path which will be SOURCEd through the backend fulcrum by the user agent (browser) for the icon in the title area of the panel
+* '''order''' - determines relative ordering of all panels on the management console. Values below 10 are reserved for system use.
+
+==Adding an icon==
+Icons are used to provide links to tools and service or to activate processes. Often these tools will present an HTML interface and you will want to run that
+interface wrapped within the Consoles HTML template. See the [[#Embedding_Tools|embedding tools]] section for more details on that, here we will focus on registering the icon.
+Add an <icon> fragment to ControlPanel.xml:
+{xml}
+<controlpanel>
+	<icon>
+		<panel>urn:org:netkernel:nkse:control:panel:home</panel>
+		<title>System Information</title>
+		<subtitle>Detailed report of system state</subtitle>
+		<path>/tools/sysinfo</path>
+		<icon>/tools/introspect/pub/info2.png</icon>
+		<keywords>heap memory pool cache requests cpu uptime properties</keywords>
+		<order>10</order>
+	</icon>
+</controlpanel>
+{/xml}
+The icon element contains the following elements:
+* '''panel''' - the id of the panel that will contain the icon
+* '''title''' - title of the tool
+* '''subtitle''' - this subtitle is a longer description of the tools usage
+* '''path''' - path of tool which will be SOURCEd through the backend fulcrum by the user agent when icon is clicked
+* '''icon''' -  optional icon is a path which will be SOURCEd through the backend fulcrum by the user agent
+* '''keywords''' - an keywords that will be added to the management console and documentation search index
+* '''order''' - determines relative ordering of all icons on the panel
+
+==Adding a widget==
+Widgets are small inline sub-panels within a main management console panel. They are usually used to display status information or
+may contain simple forms. They appear above any icons.
+
+Add a <widget> fragment to ControlPanel.xml:
+{xml}
+<controlpanel>
+	<widget>
+		<request>
+			<identifier>active:1060NewsTicker</identifier>
+		</request>
+		<panel>urn:org:netkernel:nkse:control:panel:home</panel>
+		<order>1</order>
+	</widget>
+</controlpanel>
+{/xml}
+The widget element contains the following elements:
+* '''panel''' - the id of the panel that will contain the widget
+* '''request''' - a [[doc:logicalreference:module:standard:logical:declarative:request:syntax|declarative request]] that will be issued to obtain the HTML source of the widget
+* '''order''' - determines relative ordering of all widgets on the panel
+
+==Embedding Tools==
+Usually icons on panels will link to tools which will be embedded within the HTML template of the management console.
+This has the advantage of consistency of style and navigation for the user. To achieve this the application exposing the
+tool must export it's tool into the management console. This is done using a [[doc:layer1:accessors:dynamic-import|dynamic import]], the application space must
+expose the resource '''res:/etc/system/SimpleDynamicImportHook.xml''' and this must have the following value:
+{xml}
+<connection>
+	<type>ControlPanel</type>
+</connection>
+{/xml}
+Importing into the management console automatically makes your functionality available in the backend fulcrum (because the management
+console is itself imported into the backend fulcrum).
+
+The next step to integration is that the tools which want to be wrapped must specify some [[doc:physicalreference:response-configuration|response headers]].
+The response headers are detected by the management console and they are used to control how the tool is wrapped. The following headers can be specified:
+* '''WrappedControlPanel''' - setting this header to a boolean ''true'' value is the minimum necessary requirement to get your tool to be wrapped. This header can also have String value which will specify an overridden title for the tool. 
+* '''WrappedControlPanelSubtitle''' - setting this header with a String overrides the default subtitle for the tool
+* '''WrappedControlPanelIcon''' - setting this header with a String overrides the default icon for the tool
+* '''WrappedControlPanelMime''' - setting this header with a String overrides the default response mimetype from ''text/html''
+* '''WrappedControlPanelNarrow''' - setting this header with a boolean ''true'' forces the tool to fit within a more narrow 900 pixel template rather than the default template which will expand if necessary to fill the available width in the browser.
+
+By default a wrapped tool will inherit title, subtitle and icon from an <icon> tag specified for the tool in ControlPanel.xml. The management console assumes
+that any tool which has a path which starts with or is the path specified in the icon tag is indeed that tool. So in the case where a tool has multiple pages
+with different paths ensure that all those paths are sub-paths of the initial path. i.e. tools path is ''/mytool/'' and the additional pages might be ''/mytool/page2'',
+''/mytool/page3'', etc. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,8 @@
+It is good idea to use version control to manage your own NetKernel modules.
+
+==SVN==
+Subversion works naturally with NetKernel because each sub-directory/module can be versioned and branched independently. 
+
+==Git==
+Github makes using git easy. However using NetKernel with git best practice is to use one repository per module. This could become
+cumbersome.

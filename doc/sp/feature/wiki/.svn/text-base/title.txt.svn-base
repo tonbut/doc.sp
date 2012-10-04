@@ -1,0 +1,8 @@
+=Wiki Syntax=
+
+There are several wiki syntaxes supported by NetKernel wiki engine...
+
+*[[doc:sysadmin:wiki:ref:mediawiki|MediaWiki]]
+*[[doc:sysadmin:wiki:ref:textile|Textile]]
+*[[doc:sysadmin:wiki:ref:confluence|Confluence]]
+*[[doc:sysadmin:wiki:ref:tracwiki|TracWiki]]

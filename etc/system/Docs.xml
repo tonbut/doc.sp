@@ -209,6 +209,40 @@
     <desc>How to document NetKernel modules and functionality</desc>
     <uri>res:/doc/sp/feature/doc.txt</uri>
   </doc>
+  
+  <doc>
+    <id>doc:process:wiki:title</id>
+    <title>Wiki Syntax Reference</title>
+    <desc>MediaWiki wiki syntax reference guide</desc>
+    <uri>res:/doc/sp/feature/wiki/title.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:wiki:ref:mediawiki</id>
+    <title>MediaWiki Reference</title>
+    <desc>MediaWiki wiki syntax reference guide</desc>
+    <uri>res:/doc/sp/feature/wiki/mediawiki.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:wiki:ref:textile</id>
+    <title>Textile Reference</title>
+    <desc>Textile wiki syntax reference guide</desc>
+    <uri>res:/doc/sp/feature/wiki/textile.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:wiki:ref:confluence</id>
+    <title>Confluence Reference</title>
+    <desc>Confluence wiki syntax reference guide</desc>
+    <uri>res:/doc/sp/feature/wiki/confluence.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:wiki:ref:tracwiki</id>
+    <title>TracWiki Reference</title>
+    <desc>TracWiki wiki syntax reference guide</desc>
+    <uri>res:/doc/sp/feature/wiki/tracwiki.txt</uri>
+  </doc>
+  
+  
+  
   <doc>
     <id>doc:process:feature:hc</id>
     <title>Adding System Healthchecks</title>

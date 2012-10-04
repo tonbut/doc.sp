@@ -1,0 +1,111 @@
+=MacroEngines Reference =
+
+Wink wiki text is actually a DSL that supports extensible macro engines.  There are currently 3 built-in macro engines.
+
+==Java Code Formatter==
+
+For Java code formatting use the following macro
+
+<b>
+&#x7b;java}
+SOURCE CODE
+{/java}
+</b>
+===Example===
+
+{java}
+/*
+* Beanshell example
+*/
+import org.ten60.netkernel.layer0.nkf.*;
+
+void main()
+{   System.out.println("hello world");
+}
+{/java}
+
+==XML Formatter==
+
+For xml formatting use the following macro
+
+<b>
+&#x7b;xml}
+XML
+{/xml}
+</b>
+
+===Example===
+
+{xml}
+<root a="hello">
+  <b>
+   <c>World</c>
+  </b>
+</root>
+{/xml}
+
+==Literal==
+
+For literal text (no formatting) use the following macro
+
+<b>
+&#x7b;literal}
+LITERAL TEXT
+{/literal}
+</b>
+
+===Example===
+
+{literal}This is literal < > == ''text''{/literal}
+
+==Image==
+
+The image engine will serve SVG images or URL references to bitmap images. 
+
+<b>
+&#x7b;image}
+SVG Image Source | Image URL
+{/image}
+</b>
+
+===Example===
+
+{image}
+<svg:svg xmlns:svg="http://www.w3.org/2000/svg" width="12cm" height="9cm">
+   <svg:g style="fill-opacity:0.7; stroke:black; stroke-width:0.1cm;">
+     <svg:circle cx="6cm" cy="2cm" r="100" style="fill:red;"
+                     transform="translate(0,50)" />
+     <svg:circle cx="6cm" cy="2cm" r="100" style="fill:blue;"
+                     transform="translate(70,150)" />
+     <svg:circle cx="6cm" cy="2cm" r="100" style="fill:green;"
+                     transform="translate(-70,150)"/>
+   </svg:g>
+</svg:svg>
+{/image}
+
+
+
+=Creating Your Own Macro Engines=
+
+In general the tag name &#x7b;xxxx} inside the curly brackets results in a request of the form...
+
+{java}
+active:winkTemplateEngine/XXXX/MODE+operand@[...literal string...]
+{/java}
+
+Where the name is converted to uppercase and is used as a REST path on the active URI base.
+The ''operand'' argument is the literal string value of the content delimited by the macro tags. The MODE field is either XHTML or DOCBOOK.
+
+So for example the '''&#x7b;java}''' macro is implemented with an engine having two logical URIs...
+
+{java}
+active:winkTemplateEngine/JAVA/XHTML
+{/java}
+
+The XHTML mode of a macro engine '''must''' return a string resource containing a well-formed XHTML &lt;div&gt; block fragment.
+
+{java}
+active:winkTemplateEngine/JAVA/DOCBOOK
+{/java}
+
+The DOCBOOK mode of a macro engine '''must''' return a string resource containing a well-formed [[http://www.docbook.org|docbook]]  XML fragment.

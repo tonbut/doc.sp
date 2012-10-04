@@ -1,1 +1,103 @@
-The Eclipse IDE ...
+[http://eclipse.org/|Eclipse] is an
+open-source integrated development environment (IDE) supporting 
+Java, Scala, XML and other development languages.
+Eclipse uses a ''workspace'' for each major development effort.
+Within a workspace  a ''project'' contains a unit of work.
+This tutorial describes how to create a new Eclipse workspace for your NetKernel
+development and an Eclipse project for each NetKernel module you develop.
+
+=Eclipse Workbench=
+
+Follow these steps to create a new Eclipse workspace:
+
+# Run Eclipse. 
+## After Eclipse starts up it displays a dialog titled "Workspace Launcher".
+## Select a filesystem directory structure for your NetKernel modules (See [[doc:tutorial:settingup:directories|Setting up Development Directories]] for a recommended directory structure).
+## Select the workbench button (on the right hand side of the blank welcome screen)
+
+You now have a new empty Eclipse workspace.
+In the documentation we will refer to the workspace location
+in your computer's file system as <code><nowiki>[workspace]</nowiki></code>.
+
+There is one more step to take to make it easier to create and customize
+Eclipse projects.
+NetKernel requires all Java classes to be located in the root of a 
+module. 
+By default, Eclipse specifies a <code>/src</code> subdirectory for
+source files and the <code>/bin</code> sub-directory for compile
+class files.
+This default can be changed by following these steps:
+
+# Select Eclipse Preferences
+# Select Java...Build Path
+# In the section marked "Source and output folder", select "Project"
+# Click the "OK" button
+
+=NetKernel Library=
+
+An Eclipse project uses ''project libraries'' to contain linkage
+information (references to library files, etc.).
+You can create a user library before creating any projects by following these steps:
+
+# Selecting Eclipse...Preferences
+# Navigate to Java... Build Path... User Libraries
+# Press the "New" button
+# Enter the name "NetKernel"
+# Press the "OK" button
+# Press the "Add JARs..." button
+# Navigate to <code><nowiki>[install]</nowiki>/lib</code> and select the Jar files:
+## <code>urn.com.ten60.core.layer0-1.0.x.jar</code>
+## <code>urn.com.ten60.module.standard-1.0.x.jar</code>
+## <code>urn.com.ten60.core.netkernel.api-4.0.x.jar</code>
+## <code>urn.com.ten60.core.netkernel.impl-4.0.x.jar</code>
+# Press the "OK" button
+
+When you create your projects you will be able to use this library to save setup
+time.
+
+=Eclipse and NetKernel Module setup=
+
+Each module you create in NetKernel will reside in its own
+subdirectory and have an associated Eclipse project.
+Refer to [[doc:tutorial:settingup:directories|Setting up Development Directories]]
+for a recommendation.
+Which ever option you selected, your Eclipse workspace should be
+setup for that location.
+
+We will next go through the steps to create a new NetKernel module 
+that is the same used for the
+[[doc:tutorial:basics:module:create|Create a Module]] tutorial 
+called
+<code>urn.org.ten60.tutorial.firstmodule</code> and locate it at
+
+{literal}[workspace]/urn.org.ten60.tutorial.firstmodule/{/literal}
+
+# In Eclipse select File...New Java Project
+# In the dialog titled "New Java Project":
+## Enter the project name "urn.org.ten60.tutorial.firstmodule"
+## Select "Create new project in workspace"
+## Make sure "Use project folder as root for source and class files" is selected
+## Press the "Next >" button
+## Click the "Libraries" tab
+## Click the "Add Library..." button
+## Select "User Library" 
+## Press the "Next >" button
+## Select "NetKernel" 
+## Press the "Finish" button
+## Press the next "Finish" button
+
+You now have a NetKernel module subdirectory created to
+support the
+[[doc:tutorial:basics:module:create|Create a Module]] tutorial 
+within an Eclipse Project.
+
+Next you inform NetKernel about the new module by editing the file
+<code><nowiki>[install]</nowiki>/etc/modules.xml</code> as described
+in [[doc:tutorial:settingup:directories|Setting up Development Directories]].
+
+Your module is now ready for you to add files, such as the <code>module.xml</code>
+module definition file.
+To learn how to do this, and other tasks related to creating a NetKernel module,
+please switch to the
+[[doc:tutorial:basics:module:create|Create a Module]] tutorial.
+

@@ -1,0 +1,5 @@
+==Management Console==
+The management console provides tools such as the [[/doc:ee:healthcheck|System Healthcheck]] to enable monitoring of single instances.
+
+==Cluster Management==
+There is a discussion to be had and decisions to be made on the best technology to enable a cluster view by aggregating various management console tools.

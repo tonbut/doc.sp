@@ -1,1 +1,140 @@
-The IntelliJ IDE ...
+[http://www.jetbrains.com/idea/nextversion/free_java_ide.html|IntelliJ 11 Community Edition] is an
+open-source integrated development environment (IDE) supporting 
+Java, Scala, Groovy, XML and other development languages.
+A major difference between the free community edition and the commercial edition
+of IntelliJ is support for JEE application servers.
+Since NetKernel is its own application server, the community edition is an ideal IDE
+for NetKernel development.
+
+
+IntelliJ uses a ''project'' for each major development effort.
+Within a project an IntelliJ ''module'' contains a unit of work.
+This tutorial describes how to create a new IntelliJ project for your NetKernel
+development and an IntelliJ module for each NetKernel module you develop.
+
+=IntelliJ 11 Project=
+
+Run IntelliJ and follow these steps to create a new IntelliJ project called ''NetKernel'':
+
+# Select File...New Project from the IntelliJ menu.
+# Select ''Create project from scratch''.
+# Press the ''Next'' button
+# Uncheck the ''Create Module'' option
+# Provide a name (such as ''NetKernel'')
+# Select a location for the IntelliJ project file (A good location is the directory containing your development module directories)
+# Change the Project storage format, if desired
+# Press the ''Finish'' button.
+# Press ''Cancel'' at the '''Project Structure''' dialog
+
+You now have a new empty IntelliJ project.
+
+=NetKernel Library=
+
+An IntelliJ project uses ''project libraries'' to contain linkage
+information (references to library files, etc.).
+In the following steps you will create an IntelliJ project library named ''NetKernel''
+that will contain linkage information pointing to the NetKernel
+classes you will need to compile against for Java and Scala development.
+Setting up this library now will save you a lot of time later!
+There are two ways to install NetKernel - with modules expanded or not -
+and the structure of the library is unique to each installation.
+
+==Expanded Modules==
+These directions assume that you installed NetKernel with expanded modules.
+
+# Select File...Project Structure from the IntelliJ menu to return to the '''Project Structure''' dialog
+# In the upper left corner select ''Libraries'' and in the area just to the right press the ''+'' (plus) key.
+# Name the library "NetKernel" and press the ''OK'' button.
+# At the '''Choose Modules''' dialog, press the ''Cancel'' button
+# Press the ''Attach Classes...'' button.
+# Navigate to the directory where you installed NetKernel and add the following JAR files:
+## <nowiki>[install]/lib/urn.com.ten60.core.layer0-1.x.x.jar</nowiki>
+## <nowiki>[install]/lib/urn.com.ten60.core.module.standard-1.x.x.jar</nowiki>
+## <nowiki>[install]/lib/urn.com.ten60.core.netkernel.api-4.x.x.jar</nowiki>
+## <nowiki>[install]/lib/urn.com.ten60.core.netkernel.impl-4.x.x.jar</nowiki>
+# Press the ''OK'' button
+# Again, press the ''Attach Classes...'' button and add the following directories:
+## <nowiki>[install]/modules/urn.org.netkernel.xml.core-1.x.x/</nowiki>
+## <nowiki>[install]/modules/urn.org.netkernel.ext.layer1-1.x.x/</nowiki>
+## <nowiki>[install]/modules/urn.org.netkernel.ext.system-1.x.x/</nowiki>
+# Press the ''OK'' button
+
+You now have an IntelliJ project library named ''NetKernel'' ready for use
+in your IntelliJ modules.
+
+==Not Expanded Modules==
+
+These directions assume that you installed NetKernel with the expanded modules option ''off''.
+
+# Select File...Project Structure from the IntelliJ menu to return to the '''Project Structure''' dialog
+# In the upper left corner select ''Libraries'' and in the area just to the right press the ''+'' (plus) key.
+# Name the library "NetKernel" and press the ''OK'' button.
+# At the '''Choose Modules''' dialog, press the ''Cancel'' button
+# Press the ''Attach Classes...'' button.
+# Navigate to the directory where you installed NetKernel and add the following JAR files:
+## <nowiki>[install]/lib/urn.com.ten60.core.layer0-1.x.x.jar</nowiki>
+## <nowiki>[install]/lib/urn.com.ten60.core.module.standard-1.x.x.jar</nowiki>
+## <nowiki>[install]/lib/urn.com.ten60.core.netkernel.api-4.x.x.jar</nowiki>
+## <nowiki>[install]/lib/urn.com.ten60.core.netkernel.impl-4.x.x.jar</nowiki>
+# Press the ''OK'' button
+# Again, press the ''Attach Classes...'' button and add the following directories:
+## <nowiki>[install]/modules/urn.org.netkernel.xml.core-1.x.x.jar</nowiki>
+## <nowiki>[install]/modules/urn.org.netkernel.ext.layer1-1.x.x.jar</nowiki>
+## <nowiki>[install]/modules/urn.org.netkernel.ext.system-1.x.x.jar</nowiki>
+# Press the ''OK'' button
+
+
+=IntelliJ and NetKernel Module setup=
+
+Each ''NetKernel'' module will reside in its own subdirectory and have an associated ''IntelliJ'' module.
+Refer to [[doc:tutorial:settingup:directories|Setting up Development Directories]]
+for a recommendation.
+Which ever option you selected, this tutorial will use ''&#91;workspace&#93;'' to
+identify the location of the directory containing your NetKernel modules.
+
+We will next go through the steps to create a new NetKernel module 
+that is the same used for the
+[[doc:tutorial:basics:module:create|Create a Module]] tutorial 
+called
+<code>org.ten60.tutorial.firstmodule</code> and locate it at
+
+{literal}[workspace]/org.ten60.tutorial.firstmodule/{/literal}
+
+
+# In IntelliJ select File...New Module
+# Select ''Create module from scratch'' and press the ''Next'' button
+# In the ''Name:'' field enter <code>org.ten60.tutorial.firstmodule</code>, notice that the other fields are automatically filled in for you.
+# Press the ''Next'' button
+# In the field under the text &quot;Enter relative path to module...&quot; replace the default ''src'' with ''/''.
+# Press the ''Next''  button.
+# If you now see a dialog that says ''Please select project JDK'' and no JDK is listed then
+## Click the button labeled with the plus sign ('+')
+## Select JSDK
+## Navigate to the location where you installed Java on your computer (on OS X, click Versions and then select the latest Java version).
+## Click the button labeled "OK".
+## After IntelliJ configures the JSDK, click on the button labeled ''Next >''.
+# You will now see a dialog that says ''Please select the desired technologies''. If you plan to use Groovy or Scala, select them now. (If you do not see Scala as an option, you will need to download and install the Scala plugin)
+# Press the ''Finish'' button.
+
+Next you must set up some details about the new IntelliJ module.
+
+# Select the module in the left hand pane.
+# Right-click on the module to get a pop-up menu and select ''Module Settings'', this will bring the '''Project Structure''' dialog.
+# Select ''Paths''
+# Select ''Use module compile output path''
+# In the ''Output path'' field, use the browser button and select your module's directory.
+# In the ''Test output path'' field, use the browser button and select your module's directory.
+# De-select (un-check) the option ''Exclude output paths''.
+# Press the ''Apply'' button.
+# Select ''Dependencies''.
+# Select a ''Module SDK'' using the drop-down selection.
+# Press the ''Add'' button and select "Project Library..."
+# Select ''NetKernel'' and press the ''OK'' button.
+# Press the ''OK'' button to dismiss the '''Project Structure''' dialog.
+ 
+
+Your module is now ready for you to add files, such as the <code>module.xml</code>
+module definition file.
+To learn how to do this, and other tasks related to creating a NetKernel module,
+please switch to the
+[[doc:tutorial:basics:module:create|Create a Module]] tutorial.

@@ -19,7 +19,14 @@
 					<item id="doc:process:arch:modularity" title="Modularity"></item>
 					<item id="doc:process:arch:security" title="Security"></item>
 					<item id="doc:process:feature" title="Technical Features">
-						<item id="doc:process:feature:doc" title="Documenting Modules"></item>
+						<item id="doc:process:feature:doc" title="Documenting Modules">
+							<item id="doc:process:wiki:title" title="Wiki Syntax">
+								<item id="doc:process:wiki:ref:mediawiki" title="MediaWiki"/>
+								<item id="doc:process:wiki:ref:textile" title="Textile"/>
+								<item id="doc:process:wiki:ref:confluence" title="Confluence"/>
+								<item id="doc:process:wiki:ref:tracwiki" title="TracWiki"/>
+							</item>							
+						</item>
 						<item id="doc:process:feature:logging" title="Logging"></item>
 						<item id="doc:process:feature:cp" title="Extending Control Panel"></item>
 						<item id="doc:process:feature:hc" title="Adding Health Checks"></item>

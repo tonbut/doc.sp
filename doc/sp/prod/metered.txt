@@ -1,0 +1,5 @@
+Metered licensing is available from 1060 Research. This allows unlimited instances with varying specifications to be started and stopped on
+demand. The client is then periodically billed based on the last periods usage according to a agreed terms.
+
+Metered licensing relies on one or more meter servers to issue short term licenses to instances, collect usage statistics and generate
+periodic reports. The client sends these reports to 1060 Research to generate an invoice.

@@ -1,0 +1,34 @@
+=modules.d=
+The final authority (truth) on what runs in a NetKernel instance is the contents of [install]/etc/modules.xml. Very comparable to - for example - /etc/sudoers on a Linux system, which contains the final authority on what certain users are allowed to do as other users.
+
+Both modules.xml and sudoers suffer from the same problem though. Changing them is potentially dangerous to your system and multiple ways of changing them are possible. On the other hand both files must be changed for the system to be able to evolve.
+
+On Linux they tried to solve the problem with permissions, providing a safe edit tool (visudo), ... While this approach had benefits, they were easily circumvented and the basic problem remained ... multiple ways to change a single file.
+
+Nowadays you'll find a /etc/sudoers.d/ directory on Linux systems, next to the /etc/sudoers file. The idea is thus : basic non-changing stuff goes into /etc/sudoers. More volatile changes go into multiple files (with the same format as /etc/sudoers) inside the directory. The "single truth" is the combination of all, /etc/sudoers and whatever files are found in the directory.
+
+The same is now possible on NetKernel. The [install]/etc/modules.xml file will remain in place. It will remain the file that is used by 1060 and where Apposite does it's thing too. If you are happy with that (and/or use Apposite for your own stuff too) ... you need change nothing.
+
+However, you can add a new property to [install]/etc/kernel.properties :
+netkernel.init.modulesdir=etc/modules.d
+# the directory location is customizable, just make sure
+# you create it and allow the NetKernel user to access 
+# the files inside it
+
+This allows you to "drop" xml files in the same format as modules.xml inside the directory ([install]/etc/modules.d/ given the above property) and the NetKernel system will pick up the changes (as if they were done to modules.xml). Here's for example my jquery.xml
+<modules>
+  <module runlevel="7">../project-modules/urn.org.netkernel.jquery.server-1.7.2/</module>
+</modules>
+
+You choose the granularity yourself. One file per module, one file for all non-1060 modules, one file for ...
+
+=Runlevels=
+
+
+
+=Custom Distributions=
+It is recommended that the standard Enterprise Edition distribution structure is use for production systems. There
+are a number of undocumented conventions and configurations in place within the directory structure and building
+up a bare bones distribution is not recommended unless you plan to distribute NetKernel embedded within an OEM
+product. 
+

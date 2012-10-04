@@ -1,0 +1,275 @@
+#MEDIAWIKI
+=MediaWiki Reference=
+
+Parser Declaration: '''#MEDIAWIKI'''
+
+Place this tag as the single first line entry followed by a new-line.  If nothing is specified then MEDIAWIKI syntax is default.
+
+This document provides some examples of the MediaWiki syntax.  MediaWiki is the syntax used by Wikipedia.
+A more detailed guide is available [http://en.wikipedia.org/wiki/Help:Advanced_editing|here]
+
+==Basic Text Styles==
+
+{|
+|-
+|'''Style'''
+|'''Syntax'''
+|'''Example'''
+|-
+|Italic
+|{literal}''Italic''{/literal}
+|''Italic''
+|-
+|Bold
+|{literal}'''Bold'''{/literal}
+|'''Bold'''
+|-
+|Bold and Italic
+|{literal}'''''Bold and Italic'''''{/literal}
+|'''''Bold and Italic'''''
+|}
+
+==Bullets==
+{literal}
+* One
+* Two
+** Two point one
+* Three
+{/literal}
+
+===Example===
+* One
+* Two
+** Two point one
+* Three
+
+==Numbered List==
+{literal}
+# One
+# Two
+## Two point one
+# Three
+{/literal}
+
+===Example===
+# One
+# Two
+## Two point one
+# Three
+
+==Simple Tables==
+{literal}
+{|
+|-
+| '''Col1'''
+| '''Col2'''
+|-
+| 1-1
+| 1-2
+|-
+| 2-1
+| 2-2
+|}
+{/literal}
+
+===Example===
+{|
+|-
+| '''Col1'''
+| '''Col2'''
+|-
+| 1-1
+| 1-2
+|-
+| 2-1
+| 2-2
+|}
+
+For detailed information about tables check the Media Wiki help topic on
+[http://meta.wikimedia.org/wiki/Help:Table|table formatting]
+[http://meta.wikimeida.org/wiki/Help:Table]
+
+==Definition List==
+{literal}
+; word : definition of the word
+; longer phrase 
+: phrase defined
+{/literal}
+
+===Example===
+; word : definition of the word
+; longer phrase 
+: phrase defined
+
+==BlockQuote==
+
+{literal}
+<blockquote>
+The '''blockquote''' command will indent 
+both margins when needed instead of the 
+left margin only as the colon does.
+</blockquote>
+{/literal}
+
+===Example===
+
+<blockquote>
+The '''blockquote''' command will indent 
+both margins when needed instead of the 
+left margin only as the colon does.
+</blockquote>
+
+==Centered Text==
+
+{literal}<center>Centered text.</center>{/literal}
+
+===Example===
+
+<center>Centered text.</center>
+===Horizontal Dividing Line===
+A horizontal dividing line: 
+this is above it...
+<hr/>
+...and this is below it.
+
+
+==Heading Levels==
+
+{literal}
+= Level 1 =
+== Level 2 ==
+=== Level 3 ===
+==== Level 4 ====
+===== Level 5 =====
+{/literal}
+
+==Images==
+{literal}
+[[Image:http://www.1060research.com/img/about.jpg|thumb|Caption text]]
+{/literal}
+
+===Example===
+[[Image:http://www.1060research.com/img/about.jpg|thumb|Caption text]]
+
+==HTML==
+{literal}
+<table border="1">
+	<tr>
+		<td>Left</td>
+		<td>Right</td>
+	</tr>
+	<tr>
+		<td>Mary had a little lamb.</td>
+		<td>Twinkle Twinkle little star.</td>
+	</tr>
+</table>
+{/literal}
+
+===Example===
+<table border="1">
+<tr>
+<td>Left</td><td>Right</td>
+</tr>
+<tr>
+<td>
+Mary had a little lamb.
+</td>
+<td>
+Twinkle Twinkle little star.
+</td>
+</tr>
+</table>
+
+
+==More Formatting==
+
+==Basic==
+
+{literal}Text formatting in links ''[[Home]]''{/literal}
+
+===Example===
+
+Text formatting in links ''[[Home]]''
+
+==Code==
+
+{literal}
+<code>
+10 Goto 10
+</code>
+{/literal}
+
+===Example===
+
+<code>
+10 Goto 10
+</code>
+
+==Special Characters==
+{literal}
+À Á Â Ã Ä Å
+Æ Ç È É Ê Ë
+Ì Í Î Ï Ñ Ò
+Ó Ô Õ Ö Ø Ù
+Ú Û Ü ß à á
+â ã ä å æ ç
+è é ê ë ì í
+î ï ñ ò ó ô
+œ õ ö ø ù ú
+û ü ÿ
+
+¿ ¡ « » § ¶
+† ‡ • - – —
+
+™ © ® ¢ € ¥ £ ¤
+
+α β γ δ ε ζ
+η θ ι κ λ μ ν
+ξ ο π ρ σ ς
+τ υ φ χ ψ ω
+Γ Δ Θ Λ Ξ Π
+Σ Φ Ψ Ω
+
+∫ ∑ ∏ √ − ± ∞
+≈ ∝ ≡ ≠ ≤ ≥
+× · ÷ ∂ ′ ″
+∇ ‰ ° ∴ ø
+∈ ∩ ∪ ⊂ ⊃ ⊆ ⊇
+¬ ∧ ∨ ∃ ∀ ⇒ ⇔
+→ ↔ ↑
+{/literal}
+
+===Example===
+
+À Á Â Ã Ä Å
+Æ Ç È É Ê Ë
+Ì Í Î Ï Ñ Ò
+Ó Ô Õ Ö Ø Ù
+Ú Û Ü ß à á
+â ã ä å æ ç
+è é ê ë ì í
+î ï ñ ò ó ô
+œ õ ö ø ù ú
+û ü ÿ
+
+¿ ¡ « » § ¶
+† ‡ • - – —
+
+™ © ® ¢ € ¥ £ ¤
+
+α β γ δ ε ζ
+η θ ι κ λ μ ν
+ξ ο π ρ σ ς
+τ υ φ χ ψ ω
+Γ Δ Θ Λ Ξ Π
+Σ Φ Ψ Ω
+
+∫ ∑ ∏ √ − ± ∞
+≈ ∝ ≡ ≠ ≤ ≥
+× · ÷ ∂ ′ ″
+∇ ‰ ° ∴ ø
+∈ ∩ ∪ ⊂ ⊃ ⊆ ⊇
+¬ ∧ ∨ ∃ ∀ ⇒ ⇔
+→ ↔ ↑
+
+[[index|Help Index]]

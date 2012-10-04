@@ -1,0 +1,10 @@
+==Visualizer==
+Typically a developer working in the ROC domain will use the visualizer to debug applications 
+
+==Other useful tools==
+* Requests and Threads - shows all executing requests, and the threads that are executing them. More useful than a Java thread dump because a coherent view across logical requests and physical threads is shown.
+* Request Trace - inject test requests and see how they resolve and are evaluated.
+* Class Trace - help diagnose how classes are located through the classloader hierarchy
+
+==Java Debugger==
+The Java debugger can also be used.

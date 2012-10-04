@@ -1,0 +1,9 @@
+=Confluence=
+
+Parser Declaration: '''#CONFLUENCE'''
+
+Place this tag as the single first line entry followed by a new-line.  If nothing is specified then MEDIAWIKI syntax is default.
+
+==External Reference==
+
+Guide to confluence syntax located [https://textile-j.dev.java.net/confluence-syntax.html|here]

@@ -1,0 +1,25 @@
+If you have any statically compiled programming languages within your modules these will need to be
+compiled by you build script. Otherwise building may be as simple a taking your module source from
+[[doc:process:dev:versioning|version control]] and putting into a jar module. If you are using [[doc:process:prod:repository|Apposite Repository]] then you may want
+to create packages to contain one or more modules.
+
+=Distribution=
+For distribution and deployment, a module is packaged in a ".jar" file.
+While a module jar file may have any name, by convention the filename
+uses the module's URN identifier in dotted form.
+For example, if the module's urn is
+
+{literal}urn:org:netkernel:some:module{/literal}
+
+and has a version 1.0.0. The jarred file name will be
+
+{literal}urn.org.netkernel.some.module-1.0.0.jar{/literal}
+
+The use of periods (".") in the filename instead of colons (":") is required as some operating systems
+cannot cope with a colon in a filename.
+
+==Ant==
+Scripts to build modules using standard module dependencies here....
+
+==NK Gradle Plugin==
+https://github.com/bsletten/nk-gradle-plugin

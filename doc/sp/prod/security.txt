@@ -1,0 +1,109 @@
+==Management Console ==
+It is useful to keep the management console with the control panel and developer tools available on production systems to help
+with [[doc:process:prod:monitor|monitoring]] and support.
+
+The easiest way to secure the management console is to only make it accessible locally and then require SSH tunnelling into the
+host machine.
+
+If you require different users to access different tools on the management console then this can be configured. See the
+[[doc:ee:befsecurity|Enterprise Edition User Guide]] for more details.
+
+=Important=
+
+'''All management services are provided through the management interface on HTTP port 1060. It is essential
+that any production server lock down access to this port - preferably with firewall/ssh tunneling.'''
+
+=Introduction=
+
+This guide discusses the security configuration of the 1060 NetKernel System and describes how to
+configure your system to secure your applications. As with any security system there is no magic
+bullet - good security is a combination of appropriate technology, careful testing, monitoring and
+basic common sense. This guide discusses the security considerations for safely using NetKernel - it requires
+that the administrator makes necessary decisions about the applications they are deploying and the level
+of trust they have in those applications.
+
+Security administration is simply a matter of degrees of trust. If you don't trust something, can't verify it or
+plain don't know enough about something then by definition it is insecure. This document will help in
+making a judgement about the level to which you can trust your system configuration and show that with
+a few sensible considerations secure trustworthy applications can be readily created.
+
+Before configuring the security of your system it is vital that you are familiar with the general architecture. Read
+the NetKernel Concepts documents before going any further.
+
+If in doubt about any aspect of the system all source code is provided and may be examined, customized or replaced entirely.
+
+==Security Model==
+
+It is the responsibility of the administrator and module development teams to manage the local security policy of each module
+in the system. The NetKernel overlay model allows powerful security layers to be created around any
+region of your application.
+
+==General Security Issues==
+
+This section covers some general issues to consider when configuring your system security and
+deploying trusted applications.
+
+===Host Operating System User===
+
+NetKernel runs on top of a Java Virtual Machine. Running on a JVM makes basic security issues
+like Buffer Overflow attacks much less likely. However applications may be written to access
+System resources by for example using the file: URI scheme. It is essential the NetKernel and JVM
+is running with a system user that does not have Administrator privileges.
+
+As with any server configuration it is good practice to create a special userid or group for
+NetKernel and ensure the NetKernel (bin/netkernel.sh or bin/netkernel.bat) is executed as that user. If you
+don't know how to do this for your operating system you shouldn't be administering a server.
+
+===Minimal Configuration===
+If you are deploying a secure application do not deploy anything above the minimal set of modules
+required to run your application. As with any security administration Never deploy more than you
+need to do the job. A corollary of this is to configure your access control policy to only allow execution
+of your trusted application - ie even if a malicious application has been deployed make sure
+it cannot be executed.
+
+===Module Encapsulation===
+
+NetKernel modules export a public URI address space. The module developer is responsible for the
+internal working of the module which is encapsulated and cannot be used by any higher
+level module.
+
+==Transports==
+
+Transports bridge external system requests to invocations of applications by the kernel.
+Transports should be written to take certain basic precautions.
+
+===Denial of Service===
+Denial of service attacks can be made by issuing large numbers of simultaneous requests to the kernel.
+The kernel provides a protection mechanism in the request throttle that can be configured
+to limit the maximum number of concurrent kernel requests see Throttle Tuning for details. Transports
+should be written and configured to manage and limit the maximum number of requests they
+will handle.
+
+Denial of service attacks can be also be made by invoking issuing a request with very large
+parameter arguments. Transports should examine submitted parameters and ensure that they are
+deemed reasonable for the application set that is configured. By default the
+Jetty HTTP transport limits the parameter to a maximum 50k bytes, this value is
+configurable see HTTP Transport guide.
+
+===Callback Denial of Service===
+
+Applications on the NetKernel may be able to issue requests on the external interface. It is
+important to ensure that deployed applications do not accidentally or deliberately overload
+the kernel by making large numbers of external requests to the host NetKernel.
+    
+==Administrative Interface==
+
+The standard system provides a number of administrative tools, for inspection or
+reconfiguration of the kernel. These tools are provided by a web-interface on HTTP port 1060. It is '''essential'''
+that port 1060 be secured on a production server.
+
+
+It is ''very important'' to restrict access to port 1060 on your server. To access the administrator
+interface on a remote server we recommend you tunnel port 1060 through an SSH connection.
+
+==Logging==
+
+Logging is the most basic form of security. Careful use of logs and frequent inspection provides
+a good baseline for a trustworthy platform. NetKernel can be flexibly configured with multiple logs. It is
+recommended that in addition module developers implement module specific loggers
+depending on the role of a module in a given application.

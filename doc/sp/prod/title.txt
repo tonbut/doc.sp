@@ -1,0 +1,7 @@
+Putting a system you have developed into a production environment involves a number of steps:
+* Managing release versions
+* Staging environment / testing
+* Determining the production platform
+* Security on production platform
+* Managing and monitoring
+* Licensing considerations
