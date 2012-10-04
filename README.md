@@ -22,9 +22,9 @@ How to install
 --------------
 
 1. Download and install NetKernel
-2. Checkout this repository
+2. Checkout this repository (if you're new to git a good getting started guide is available here
+http://rogerdudler.github.com/git-guide/ )
 3. Edit [netkernel_install]/etc/modules.xml and add the line:
    <module>[full path to git repository]</module>
 4. Boot netkernel
-5. View this page in your browser:
-   http://localhost:1060/book/view/book:software:process/
+5. View this page in your browser: http://localhost:1060/book/view/book:software:process/
