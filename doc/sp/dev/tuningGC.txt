@@ -1,0 +1,35 @@
+Tuning Java garbage collection is complex topic in it's own right. This guide can't replace
+the valuable information found in:
+* [http://www.amazon.com/Java-Performance-Charlie-Hunt/dp/0137142528|Java Performance book by Charlie Hunt]
+* [http://www.oracle.com/technetwork/java/javase/gc-tuning-6-140523.html|Java SE 6 HotSpot Virtual Machine Garbage Collection Tuning]
+
+The regular heuristics regarding working set size don't really work with NetKernel because of the amount of heap dedicated to the
+representation cache. Our experience has show little benefit tuning eden sizing but a great benefit tuning oldgen
+which becomes increasing important as heap sizes grow.
+
+The first decision to make is if you can hold the entire applications cachable working set in cache and how much space
+that will take. Often this is not necessary if you workload distribution follows a normal distribution as
+much of the state will be rarely accessed. Once you have a rough heap size this will fall into one of two
+categories. 
+* Under 2Gb - you'll need to do very little tuning of GC with these sizes as GC pauses will be minimal
+* Over 2Gb - GC pauses start to become significant and if this is important to minimise you'll need to do some work
+
+==Tuning for heap sizes over 2Gb==
+
+Concurrent Mark and Sweep is most likely necessary to avoid long GC pauses:
+-XX:+UseConcMarkSweepGC.
+
+Log GC to file and monitor with GCViewer:
+-Xloggc:myfile.gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps
+https://github.com/chewiebug/GCViewer/wiki/Features
+
+It's important to look for stop-the-world GCs as these run single threaded and stop all other processing.
+This happens when there is not enough space oldgen space to accommodate objects promoted from eden. This could
+be due to simply running out of heap but more likely it's because the heap is filling up faster than the concurrent
+gc can cleanup. When this is the case you may need to increase the amount of heap headroom and increase decrease
+the CMS initiating occupancy fraction:
+
+-XX:CMSInitiatingOccupancyFraction=65 -XX:+UseCMSInitiatingOccupancyOnly
+
+The amount of headroom and the initiating occupancy fraction will depend upon how fast the object creation
+is.
