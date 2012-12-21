@@ -118,6 +118,12 @@
     <uri>res:/doc/sp/dev/tuning.txt</uri>
   </doc>
   <doc>
+    <id>doc:process:dev:tuning:gc</id>
+    <title>Tuning Java GC</title>
+    <desc>Learn how to tune java garbage collection</desc>
+    <uri>res:/doc/sp/dev/tuningGC.txt</uri>
+  </doc>
+  <doc>
     <id>doc:process:dev:versioning</id>
     <title>Version Control</title>
     <desc>Best practice version control for NetKernel</desc>

@@ -45,7 +45,9 @@
 						<item id="doc:process:dev:tdd" title="TDD"></item>
 						<item id="doc:process:dev:regression" title="Regression Testing"></item>
 					</item>
-					<item id="doc:process:dev:tuning" title="Tuning"></item>
+					<item id="doc:process:dev:tuning" title="Tuning">
+						<item id="doc:process:dev:tuning:gc" title="GC"/>
+					</item>
 					<item id="doc:process:dev:ci" title="Continuous Integration"></item>
 					<item id="doc:process:dev:licensing" title="Licensing"></item>
 				</item>
