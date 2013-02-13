@@ -16,20 +16,155 @@ categories.
 
 ==Tuning for heap sizes over 2Gb==
 
-Concurrent Mark and Sweep is most likely necessary to avoid long GC pauses:
--XX:+UseConcMarkSweepGC.
+In this discussion we are talking purely about tuning heap usage and garbage collection. How we tune this will effect system latency (average/maximum pauses) and throughput. There are many other dimensions to tuning applications which effect performance and should be considered in addition to tuning heap, these include:
 
-Log GC to file and monitor with GCViewer:
--Xloggc:myfile.gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps
-https://github.com/chewiebug/GCViewer/wiki/Features
+* choice of deployment platform, JVM version
+* scaling out across multiple instances
+* memory leaks (although these relate to heap usage I consider these bugs rather than in need of tuning)
+* application concurrency bottlenecks
+* application CPU usage
+* application I/O constraints
+* algorithmic design
+* data type choices
+* optimizing cacheability
 
-It's important to look for stop-the-world GCs as these run single threaded and stop all other processing.
-This happens when there is not enough space oldgen space to accommodate objects promoted from eden. This could
-be due to simply running out of heap but more likely it's because the heap is filling up faster than the concurrent
-gc can cleanup. When this is the case you may need to increase the amount of heap headroom and increase decrease
-the CMS initiating occupancy fraction:
+==Prerequisites==
+===Test load scenarios===
+It's important to know what kinds of situations your application will need to deal with.
+This doesn't need to be exhaustive but it's good to have a few scenarios that can easily be simulated. As we are just tuning heap here we are not concerned about creating a whole accurate architecture that may be needed for full web performance testing. However sometimes it may make sense to combine that testing, in which case you'll need quite a sophisticated setup and the barrier to an individual developer/you running the tests are higher. I'll leave that tradeoff to the reader!
 
--XX:CMSInitiatingOccupancyFraction=65 -XX:+UseCMSInitiatingOccupancyOnly
+I personally developed what I call a synthetic workload module which is a configurable application and clients. I have used this extensively to test the new cache and general NetKernel performance. It creates a variable structure with differing levels of data set size both in terms of count, representation size and request distribution. It tests overlays, endpoints, synchronous and asynchronous requests. I can then vary parameters overtime and capture various system statistics such as heap usage, CPU load, response time etc to plot graphs that can be observed in realtime as the test proceeds. I have promised to make this available in the 1060 repositories once I get documentation for it. However this won't help you, at least as is, test your applications!
 
-The amount of headroom and the initiating occupancy fraction will depend upon how fast the object creation
-is.
+===NetKernel built-in tools===
+NetKernel has a number of built in tools which can help you understand what is happening:
+
+'''Status Tab''' - on this page you can watch CPU usage, heap usage, request rate and cache size all on one page in lockstep.
+
+'''Representation Cache Tool''' - the new cache has a control panel tool which shows a great amount of detail about what is caching and when culling is initiated
+
+'''GC Viewer''' is a powerful tool for visualizing the operation of the Java GC process. The latest version is available here: https://github.com/chewiebug/GCViewer
+To use GC Viewer you must add JVM flags to output details of realtime GC information to a file:
+
+-Xloggc:[directory]/netkernel.gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps
+
+GC Viewer can then "tail -f" (for non Unix readers I mean follow the data written to the file in realtime) to create a dynamic chart of what is happening.
+
+{image}/doc/source/img:process:dev:tuning:gc:1{/image}
+
+''Figure 1: Using GC Viewer to see heap and GC profile''
+
+==General principles==
+There is always a tradeoff between latency and throughput. As heap sizes grow this tradeoff becomes more distinct -
+if you want to continually and incrementally look for garbage you can achieve less GC pauses but the overhead of
+garbage collection will be higher. Java GC is quite an involved mechanism that generally works pretty well out of
+the box if your requirements are simple. Current implementations consist of a three tier approach. Eden where all
+new objects are created, survivor where all objects that are still relevant when Eden is full are moved too. Survivor
+space is used as a buffer before transferring objects into the OldGen space. When tuning heap I've so far not found it
+necessary to consider the survivor space.
+
+{image}/doc/source/img:process:dev:tuning:gc:2{/image}
+
+''Figure 2: Breakdown of Heap''
+
+The Eden space is filled mostly with "live data", this is the term given to transient objects that are created whilst processing occurs. In addition it will contain young representations that have yet to migrate into OldGen. Usually we do not need to concern ourselves too much with Eden. There is just one consideration that we will talk about later, that it must be large enough to hold the live data with enough left over for young representations to be migrated in an efficient way.
+
+The OldGen space will have a relatively static proportion that is filled with all the module, space, endpoint classes as well as their internal state and kernel data structures. The largest proportion of the OldGen space is typically taken up by long lived representations that are held in the representation cache. In addition there will usually be an amount of space taken up by representations culled from the cache but still to be garbage collected.
+
+To understand the lifecycle of OldGen consider the following diagram:
+
+{image}/doc/source/img:process:dev:tuning:gc:3{/image}
+
+''Figure 3: Lifecycle of OldGen''
+
+We represent the dynamic part of OldGen as a set of three receptacles. Representations find themselves in cache until they are culled. When the cull completes a set of representations migrate to become reclaimable. After this time when a GC occurs these representations can then be released an their space made free.
+
+The implication of this two stage process at the end of life of representations is that it can take some non trivial amount of time for heap space to be freed up. As heap size increases and both cull and gc processes take longer and even overlap this time must be given serious consideration.
+
+The following diagram plots OldGen usage overtime in a simple scenario of a cache cull followed by a GC. You can see the duration of time from the cull being initiated to heap actually being freed:
+
+{image}/doc/source/img:process:dev:tuning:gc:4{/image}
+
+''Figure 4: Heap breakdown over time''
+
+Now we are ready to get into the details of how to tune your system.
+
+First we need to capture a of couple metrics:
+
+* Fixed OldGen - this is composed of the long lived objects that are the modules, spaces, endpoints and kernel data structures. (OldGen is a common abbreviation of Old Generation)
+* Live Data Size - this is composed of the transient objects that are created whilst processing occurs.
+
+==Determine Fixed Oldgen==
+Make sure you enable GCViewer or some other reliable mechanism for watching heap usage in realtime. Boot your system with the default NetKernel configuration or increased heap size if that is necessary. Run a typical load through the system for one minute or until you think things have been pretty much warmed up. Clear the representation cache. Then manually trigger a full garbage collection a couple of times. Observe the lowest total heap usage at this stage, this is the Fixed Oldgen.
+
+==Determine Live Data Size==
+If you haven't done this already, you are going to need to determine what the desired concurrency of your system is. For a system without any slow I/O you'd typically want to keep the concurrency around the size of the number of CPU processing cores, not less but not too much higher. Having more concurrency will not increase throughput but will increase the live data size and increase thread switching overhead on the CPU. With I/O it get's more complicated because you want to increase concurrency to keep the processor busy whilst other requests are waiting on I/O. You will want to enforce this maximum concurrency with a throttle. This will ensure that the system cannot become overloaded.
+
+Boot your system again with your favourite tools for monitoring the heap. Then we need to choose a very small cache size - Here we are trying to get a balance of not letting the cache size effect the result whilst not letting the lack of a cache effect short term operation. (Often we rely on the cache to keep pre-compiled stylesheets and scripts etc.) Run through your test scenarios that are capable of fully loading the system up to maximum concurrency for a sustained burst. What we are looking for is the troughs in heap usage. These should occur immediately after a GC. Take a rough average of these troughs. This heap usage is the live data size plus fixed OldGen so subtract the fixed OldGen we calculated in the last section and we have our live data size.
+
+The live data size is used to calculate the size of the Eden space in the heap. Typical recommendations are to choose a size between 1x and 1.5x the live data size. 
+
+==How to determine remaining parameters==
+Oracle JVMs provide quite a range of different garbage collection strategies and exploring them in detail is outside the scope of this article. My experience is with using Concurrent Mark and Sweep (CMS) GC so this is what I'm going to talk about. CMS is the most consistently responsive GC strategy when the heap size grows because it performs nearly all it's work concurrently with regular processing. There is a new G1 garbage collector - this is designed to be a better CMS for large heaps. I have no experience using it and it's status is a little uncertain from what I can ascertain.  For systems with small heaps or where best throughput is the priority there may also be better choices.
+
+CMS imposes a higher overhead in terms of CPU usage and heap wastage than most other GC mechanisms - this is the tradeoff we make for consistent performance.  It also has one very nasty characteristic - the stop-the-world (STW) collection. This occurs when it's regular collection cycle cannot keep up with garbage created. When this happens all user threads stop until the STW collection completes. I have seen pauses of a couple of minutes on a 50Gb heap so it's definitely to be avoided. Avoiding it however takes some careful tuning and being prepared to set aside a relatively large amount of heap for the worst case scenario. Even with enough headroom a STW collection can still occur if the heap gets sufficiently fragmented that there are no large enough gaps for new objects. Again this risk can be minimised but never completely eliminated by keeping the headroom large. This is an unfortunate limitation of most current Java implementations but there is at least one commercial JVM available which claims to address this issue. One other consequence of these STW collections is that the servers workload backs up putting additional pressure on other instances in a load balanced environment or just backing up in a queue elsewhere. What you really need to avoid, again not discussed here, is the domino effect.
+
+CMS is enabled with the JVM flag:
+
+<code>-XX:+UseConcMarkSweepGC</code>
+
+In addition you'll probably want to fix the dynamic nature of CMS. This because it doesn't seem to interact well with the patterns of heap usage that occur with periodic large culls of the NetKernel cache. The following flags cause the GC to be initiated at fixed percent of heap being used. We will talk about tuning of the InitiatingOccupancyFraction in a moment:
+
+<code>-XX:CMSInitiatingOccupancyFraction=65 -XX:+UseCMSInitiatingOccupancyOnly</code>
+
+The next step takes some iteration to find suitable values. If we have flexibility we can adjust total heap size within bounds of available RAM. Otherwise we'll just be trying to optimize performance for the amount of available heap we have.
+
+The parameters we are going to tune are:  
+
+# '''Java Total Heap Size''' (if this is an option) - total maximum heap usage is set with the -Xmx JVM flag. This total will be broken into three parts, the Eden space which we just specified, a small (and usually insignificant Survivor space) and the remainder will be OldGen (usually the largest proportion of total heap)
+# '''Java CMS Initiating Occupancy Fraction''' - this is the trigger threshold, as a percentage of OldGen used, that initiates the concurrent GC process.  We need to make this value low enough so that by the time it completes the remaining portion of OldGen will not have been completely filled. If we make it too low then the GC process will be triggered continuously and create additional processing overhead.
+# '''NetKernel Cache Heap Headroom''' - this is the trigger threshold, as a percentage of OldGen available, that initiates the NetKernel cull process. We need to make this value high enough such that it there is always at least enough heap space made available for the GC process to free. So this value must be greater than (100 - InitiatingOccupancyThreshold) The amount greater depends upon how slow the cull becomes.
+# '''NetKernel Cache Cull Percent''' - this is the percentage of cached items that will be culled per cull cycle. It doesn't take more processing effort to cull more so making this value higher increases the efficiency of the cull process at the expense of granularity.
+
+{image}/doc/source/img:process:dev:tuning:gc:5{/image}
+
+''Figure 5: Tuning parameters related to heap lifecycle''
+
+Putting these parameters onto the "heap breakdown over time" chart we saw earlier we can see how the process can be controlled.
+The "headroom" measure on the top right is the free space that we are trying to avoid going down to zero.
+This chart is much simplified over what you'll see in reality because the cache culls and the concurrent gc process will overlap. Also there are many minor GCs, something that we haven't really talked about but that chip away at easy to access garbage in the very fine grained way. Another problem is that currently there is no way to see the cull process and the GC process together in one place in realtime. However given all these real world limitations what we need to do is to attempt now to maximise the cache storage capacity of the heap whilst ensuring we keep enough headroom to weather the perfect storm.
+
+This storm will occur when our system is maxed out on CPU. The cache cull process and the GC will be running at their slowest.
+The GC will be running out of step with the cull so that we'll miss GCing many of the representations first time around and
+they will sit around for longer than expected. Whilst all this is happening our real work will be happening at the maximum 
+rate configured by our concurrency throttle but our users will be doing the most complex and intensive of requests possible 
+all at the same time. This will be creating new representations to be cached and using the full amount of our live-data-size 
+with transient objects during processing.
+
+{image}/doc/source/img:process:dev:tuning:gc:6{/image}
+
+''Figure 6: The traffic is about to hit''
+
+So to avoid panic we need to do our testing and play it safe. We are now reaching the final crunch point in this post and I guess your expecting a nice simple process to compute these tuning parameters I've given you. Let's see what I can do knowing full well that there are too many variables and too few constraints.
+
+{image}/doc/source/img:process:dev:tuning:gc:7{/image}
+
+''Figure 7: Tuning Flowchart''
+
+This flowchart is not perfect but it's a good rule of thumb that should do you well. It doesn't include tuning the cull% and there is one other omission that the observant reader will find but in pragmatic style it's good enough.
+
+==Other Parameters==
+There are many other parameters that can be tuned in NetKernel but particularly the JVM. I would suggest keeping away from these unless you see specific problems or needs. These include:
+
+* '''-Xms''' (starting heap size) I don't bother to see this to anything other than the same as -Xmx (maximum heap size). This value may matter for lean startup of client side processes but on long runner servers it's red herring.
+* '''-Xss''' (stack space)
+* '''-XX:MaxPermSize''' (permgen sizes)
+
+==In Conclusion==
+All this gets more complicated when you have mixed processing and different modes of operation with different computation and heap requirements that are done at different times. The general rule is: plan for the worst case.
+
+Will caching actually help performance? Only cache what is useful as increased time performing GC on large OldGen will lower throughput. I.e. as large a heap as possible is not always the best plan.
+
+I hope this article is useful but I am also aware that this is a complex topic that a couple of articles cannot do justice to. If you are serious about tuning NetKernel applications I believe you really need to read and understand the references. You can also see that we are balancing a lot of variables here and finding the right balance can be somewhat of an art and only experience will help you. Remember, also, that we, 1060 Research, are there to help with a great range of support options.
+
+
+''This article original appeared in http://durablescope.blogspot.co.uk/ in January 2013.''

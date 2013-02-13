@@ -1,0 +1,91 @@
+Managing SSL certificates is one of those chores that comes around regularly - but with a very low frequency - which means its almost impossible to remember
+from one year to the next what you need to do. Here for the record is a step-by-step
+procedure which, on a Linux box with openssl, works very smoothly. Each step uses the hostname
+"www.hostname.com" for illustration so just replace this with your own domain...
+
+(Its also worth reviewing the guidance provided by [http://docs.codehaus.org/display/JETTY/How+to+configure+SSL|Jetty].)
+
+==0. Create a new private key and CSR==
+<code>openssl req -new -newkey rsa:4096 -nodes -keyout www.hostname.com.key -out www.hostname.com.csr</code>
+
+When asked, make sure the qualified name is the hostname you want the certificate for. Upload (or cut and paste the text) the CSR to your SSL certificate authority and ask for the certificate.
+
+==1. Download the certificate.==
+You may get the opportunity to choose the type of server - usually "Apache" will give you the most standard result.
+
+For example, with the GoDaddy "Apache" option you get a zip with two certs: www.hostname.com.crt and gd_bundle.crt
+
+If this is what you get, then you need to do some work to associate the CA key chain with the host certificate...
+
+==2. Make sure cert and CA keys are in PEM format==
+Check like this...
+
+<code>openssl x509 -text -inform PEM -in www.hostname.com.crt</code>
+
+<code>openssl x509 -text -inform PEM -in gd_bundle.crt</code>
+
+Even though they end with .crt mine were really PEM format!! (Thanks GoDaddy)
+
+If they're not PEM then use openssl to convert to PEM.
+
+==3. Create concatenated keychain==
+Note, the left to right order of the cert and CA cert is critical...
+
+cat www.hostname.com.crt gd_bundle.crt > jetty-chain.pem
+Verify this worked using...
+
+<code>openssl x509 -text -inform PEM -in jetty-chain.pem</code>
+
+==4. Create pkcs12 store with the private key and the certificate keychain...==
+<code>openssl pkcs12 -export -inkey www.hostname.com.key -in jetty-chain.pem -out jetty-chain.pkcs12</code>
+
+==5. Import pkcs12 into Java keystore...==
+<code>keytool -importkeystore -srckeystore jetty-chain.pkcs12 -srcstoretype PKCS12 -destkeystore keystore</code>
+
+==6. Check that the certificate has a certificate chain length...==
+<code>keytool -list -keystore keystore -v</code>
+
+You should see...
+<pre>
+Keystore type: JKS
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+Alias name: 1
+Creation date: 23-Jan-2013
+Entry type: PrivateKeyEntry
+Certificate chain length: 3
+...
+</pre>
+
+You want to see this Certificate chain length: 3 - where the chain length is greater than one to show that you've go the cert and the associate CA certificates chained.
+
+==7. Clone the key to give it "jetty" alias (and a new password if needed)==
+
+<code>keytool -keyclone -keystore keystore -alias 1 -dest jetty -new xxxxnewpassswordxxxxxxx</code>
+
+==8. Delete older key (Jetty doesn't like having 2 keys in the keystore)==
+<code>keytool -delete -alias 1 -keystore keystore</code>
+
+Verify that keystore looks good...
+
+<code>keytool -list -keystore keystore</code>
+
+To see...
+
+<pre>
+Keystore type: JKS
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+jetty, 23-Jan-2013, PrivateKeyEntry, 
+Certificate fingerprint (SHA1): D2:38:DC:08:87:10:5D:EC:0B:44:87:25:09:A9:55:3A:FE:5D:54:7A
+</pre>
+
+You're all set - take the keystore and deploy it to your server. Make sure
+the SSLConnection settings in the HTTPTransportConfig.xml in your Fulcrum point to the keystore and have the correct passwords etc.
+ 
+ 
+ 

@@ -119,10 +119,39 @@
   </doc>
   <doc>
     <id>doc:process:dev:tuning:gc</id>
-    <title>Tuning Java GC</title>
+    <title>Tuning Java GC and Heap</title>
     <desc>Learn how to tune java garbage collection</desc>
     <uri>res:/doc/sp/dev/tuningGC.txt</uri>
   </doc>
+  <doc>
+    <id>img:process:dev:tuning:gc:1</id>
+	<uri>res:/doc/sp/dev/GCViewer.png</uri>
+  </doc>  
+  <doc>
+    <id>img:process:dev:tuning:gc:2</id>
+	<uri>res:/doc/sp/dev/heapBreakdown.png</uri>
+  </doc>  
+  <doc>
+    <id>img:process:dev:tuning:gc:3</id>
+	<uri>res:/doc/sp/dev/heapProcess.png</uri>
+  </doc>  
+  <doc>
+    <id>img:process:dev:tuning:gc:4</id>
+	<uri>res:/doc/sp/dev/heapOverTime.png</uri>
+  </doc>  
+  <doc>
+    <id>img:process:dev:tuning:gc:5</id>
+	<uri>res:/doc/sp/dev/heapParams2.png</uri>
+  </doc>  
+  <doc>
+    <id>img:process:dev:tuning:gc:6</id>
+	<uri>res:/doc/sp/dev/PerfectStorm.png</uri>
+  </doc>  
+  <doc>
+    <id>img:process:dev:tuning:gc:7</id>
+	<uri>res:/doc/sp/dev/tuningFlowchart.png</uri>
+  </doc>  
+  
   <doc>
     <id>doc:process:dev:versioning</id>
     <title>Version Control</title>
@@ -189,6 +218,12 @@
     <title>Production Security Considerations</title>
     <desc>Security considerations when putting NetKernel into production</desc>
     <uri>res:/doc/sp/prod/security.txt</uri>
+  </doc>
+  <doc>
+    <id>doc:process:prod:ssl</id>
+    <title>SSL Certificate Procedure</title>
+    <desc>Managing SSL certificates on a HTTP Server</desc>
+    <uri>res:/doc/sp/prod/ssl.txt</uri>
   </doc>
 
   <doc>

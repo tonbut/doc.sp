@@ -46,7 +46,7 @@
 						<item id="doc:process:dev:regression" title="Regression Testing"></item>
 					</item>
 					<item id="doc:process:dev:tuning" title="Tuning">
-						<item id="doc:process:dev:tuning:gc" title="GC"/>
+						<item id="doc:process:dev:tuning:gc" title="GC/Heap"/>
 					</item>
 					<item id="doc:process:dev:ci" title="Continuous Integration"></item>
 					<item id="doc:process:dev:licensing" title="Licensing"></item>
@@ -56,7 +56,9 @@
 					<item id="doc:process:prod:repository" title="Repository"></item>
 					<item id="doc:process:prod:management" title="Management"></item>
 					<item id="doc:process:prod:monitor" title="Monitoring"></item>
-					<item id="doc:process:prod:security" title="Security"></item>
+					<item id="doc:process:prod:security" title="Security">
+						<item id="doc:process:prod:ssl" title="SSL"/>
+					</item>
 					<item id="doc:process:prod:licensing" title="Licensing">
 						<item id="doc:process:prod:licensing:regular" title="Enterprise Edition"/>
 						<item id="doc:process:prod:licensing:meter" title="Metered"/>
