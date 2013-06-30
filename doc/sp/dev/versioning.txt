@@ -6,3 +6,10 @@ Subversion works naturally with NetKernel because each sub-directory/module can 
 ==Git==
 Github makes using git easy. However using NetKernel with git best practice is to use one repository per module. This could become
 cumbersome.
+
+==Hg and Git==
+Bitbucket makes using Mercurial (hg) and Git (git) easy. 
+
+For 'standalone' modules, which are applications in themselves, one could create a repository per module. 
+
+A good rule of thumb is to start using a repository per application. An application consists of one module or set of modules. Once some modules start to be used in multiple applications it's time to move those shared modules to a separate 'shared' repository.
